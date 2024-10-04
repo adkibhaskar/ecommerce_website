@@ -113,7 +113,6 @@ public class ProductServiceImpl implements ProductService {
 
 		return products;
 	}
-
 	@Override
 	public List<Product> searchProduct(String ch) {
 		return productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(ch, ch);
@@ -138,7 +137,8 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return pageProduct;
 	}
-
+    
+	
 	@Override
 	public Page<Product> searchActiveProductPagination(Integer pageNo, Integer pageSize, String category, String ch) {
 
@@ -147,12 +147,6 @@ public class ProductServiceImpl implements ProductService {
 
 		pageProduct = productRepository.findByisActiveTrueAndTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(ch,
 				ch, pageable);
-
-//		if (ObjectUtils.isEmpty(category)) {
-//			pageProduct = productRepository.findByIsActiveTrue(pageable);
-//		} else {
-//			pageProduct = productRepository.findByCategory(pageable, category);
-//		}
 		return pageProduct;
 	}
 
