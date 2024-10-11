@@ -49,7 +49,6 @@ public class SecurityConfig {
 				.requestMatchers("/**").permitAll())
 				.formLogin(form->form.loginPage("/signin")
 						.loginProcessingUrl("/login")
-//						.defaultSuccessUrl("/")
 						.failureHandler(authenticationFailureHandler)
 						.successHandler(authenticationSuccessHandler))
 				.logout(logout->logout.permitAll());

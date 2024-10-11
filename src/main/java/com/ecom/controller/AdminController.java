@@ -92,7 +92,6 @@ public class AdminController {
 	@GetMapping("/category")
 	public String category(Model m, @RequestParam(name = "pageNo", defaultValue = "0") Integer pageNo,
 			@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-		// m.addAttribute("categorys", categoryService.getAllCategory());
 		Page<Category> page = categoryService.getAllCategorPagination(pageNo, pageSize);
 		List<Category> categorys = page.getContent();
 		m.addAttribute("categorys", categorys);
@@ -131,7 +130,6 @@ public class AdminController {
 				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "category_img" + File.separator
 						+ file.getOriginalFilename());
 
-				// System.out.println(path);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
 				session.setAttribute("succMsg", "Saved successfully");
@@ -184,7 +182,6 @@ public class AdminController {
 				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "category_img" + File.separator
 						+ file.getOriginalFilename());
 
-				// System.out.println(path);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 			}
 
@@ -214,7 +211,6 @@ public class AdminController {
 			Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "product_img" + File.separator
 					+ image.getOriginalFilename());
 
-			// System.out.println(path);
 			Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
 			session.setAttribute("succMsg", "Product Saved Success");
@@ -230,13 +226,6 @@ public class AdminController {
 			@RequestParam(name = "pageNo", defaultValue = "0") Integer pageNo,
 			@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
 
-//		List<Product> products = null;
-//		if (ch != null && ch.length() > 0) {
-//			products = productService.searchProduct(ch);
-//		} else {
-//			products = productService.getAllProducts();
-//		}
-//		m.addAttribute("products", products);
 
 		Page<Product> page = null;
 		if (ch != null && ch.length() > 0) {
@@ -318,9 +307,6 @@ public class AdminController {
 	@GetMapping("/orders")
 	public String getAllOrders(Model m, @RequestParam(name = "pageNo", defaultValue = "0") Integer pageNo,
 			@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-//		List<ProductOrder> allOrders = orderService.getAllOrders();
-//		m.addAttribute("orders", allOrders);
-//		m.addAttribute("srch", false);
 
 		Page<ProductOrder> page = orderService.getAllOrdersPagination(pageNo, pageSize);
 		m.addAttribute("orders", page.getContent());
@@ -382,9 +368,6 @@ public class AdminController {
 
 			m.addAttribute("srch", true);
 		} else {
-//			List<ProductOrder> allOrders = orderService.getAllOrders();
-//			m.addAttribute("orders", allOrders);
-//			m.addAttribute("srch", false);
 
 			Page<ProductOrder> page = orderService.getAllOrdersPagination(pageNo, pageSize);
 			m.addAttribute("orders", page);
@@ -422,7 +405,6 @@ public class AdminController {
 				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" + File.separator
 						+ file.getOriginalFilename());
 
-//				System.out.println(path);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 			}
 			session.setAttribute("succMsg", "Register successfully");

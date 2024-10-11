@@ -3,7 +3,7 @@
 	th:replace="~{base::layout(~{::section})}">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Login Page</title>
 </head>
 <body>
 	<section>
@@ -33,7 +33,7 @@
 								Logout Sucessfully</div>
 						</div>
 						<div class="card-body">
-							<form action="/login" method="post">
+							<form action="/login" method="post" id="userLogin" >
 								<div class="mb-3">
 									<label class="form-label">Email</label> <input required
 										class="form-control" name="username" type="email">

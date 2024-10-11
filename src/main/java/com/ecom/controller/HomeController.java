@@ -97,6 +97,10 @@ public class HomeController {
 	public String register() {
 		return "register";
 	}
+	@GetMapping("/admin-register")
+	public String adminRegister() {
+		return "adminRegister";
+	}	
 
 	@GetMapping("/products")
 	public String products(Model m, @RequestParam(value = "category", defaultValue = "") String category,
@@ -108,8 +112,6 @@ public class HomeController {
 		m.addAttribute("paramValue", category);
 		m.addAttribute("categories", categories);
 
-//		List<Product> products = productService.getAllActiveProducts(category);
-//		m.addAttribute("products", products);
 		Page<Product> page = null;
 		if (StringUtils.isEmpty(ch)) {
 			page = productService.getAllActiveProductPagination(pageNo, pageSize, category);
@@ -157,8 +159,7 @@ public class HomeController {
 
 					Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" + File.separator
 							+ file.getOriginalFilename());
-
-//					System.out.println(path);
+				System.out.println(path);
 					Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 				}
 				session.setAttribute("succMsg", "Register successfully");
@@ -169,8 +170,31 @@ public class HomeController {
 
 		return "redirect:/register";
 	}
+	@PostMapping("/saveAdmin")
+	public String saveAdmin(@ModelAttribute UserDtls user, @RequestParam("img") MultipartFile file, HttpSession session)
+			throws IOException {
 
-//	Forgot Password Code 
+		String imageName = file.isEmpty() ? "default.jpg" : file.getOriginalFilename();
+		user.setProfileImage(imageName);
+		UserDtls saveUser = userService.saveAdmin(user);
+
+		if (!ObjectUtils.isEmpty(saveUser)) {
+			if (!file.isEmpty()) {
+				File saveFile = new ClassPathResource("static/img").getFile();
+
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" + File.separator
+						+ file.getOriginalFilename());
+
+
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+			}
+			session.setAttribute("succMsg", "Register successfully");
+		} else {
+			session.setAttribute("errorMsg", "something wrong on server");
+		}
+
+		return "redirect:/register";
+	}
 
 	@GetMapping("/forgot-password")
 	public String showForgotPassword() {
@@ -190,8 +214,6 @@ public class HomeController {
 			String resetToken = UUID.randomUUID().toString();
 			userService.updateUserResetToken(email, resetToken);
 
-			// Generate URL :
-			// http://localhost:8080/reset-password?token=sfgdbgfswegfbdgfewgvsrg
 
 			String url = CommonUtil.generateUrl(request) + "/reset-password?token=" + resetToken;
 
@@ -232,7 +254,6 @@ public class HomeController {
 			userByToken.setPassword(passwordEncoder.encode(password));
 			userByToken.setResetToken(null);
 			userService.updateUser(userByToken);
-			// session.setAttribute("succMsg", "Password change successfully");
 			m.addAttribute("msg", "Password change successfully");
 
 			return "message";
